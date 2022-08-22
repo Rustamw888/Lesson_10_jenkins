@@ -5,8 +5,22 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selene import Browser, Config
 from dotenv import load_dotenv
+from selene.support.shared import browser
 
 from utils import attach
+
+
+@pytest.fixture(scope='function', autouse=True)
+def browser_management():
+    browser.config.base_url = os.getenv('selene.base_url', 'https://demoqa.com')
+    browser.config.browser_name = os.getenv('selene.browser_name', 'chrome')
+    browser.config.hold_browser_open = (
+            os.getenv('selene.hold_browser_open', 'false').lower() == 'true'
+    )
+    browser.config.timeout = float(os.getenv('selene.timeout', '3'))
+    browser.config.window_width = 1920
+    browser.config.window_height = 1920
+
 
 DEFAULT_BROWSER_VERSION = "100.0"
 
