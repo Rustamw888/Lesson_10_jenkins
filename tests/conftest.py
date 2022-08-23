@@ -1,11 +1,10 @@
 import os
-
 import pytest
+from selene.support.shared import browser
+
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from selene import Browser, Config
 from dotenv import load_dotenv
-from selene.support.shared import browser
 
 from utils import attach
 
@@ -19,7 +18,7 @@ def browser_management():
     )
     browser.config.timeout = float(os.getenv('selene.timeout', '3'))
     browser.config.window_width = 1920
-    browser.config.window_height = 1920
+    browser.config.window_height = 1080
 
 
 DEFAULT_BROWSER_VERSION = "100.0"
@@ -59,8 +58,7 @@ def setup_browser(request):
         command_executor=f"https://{login}:{password}@selenoid.autotests.cloud/wd/hub",
         options=options
     )
-    browser = Browser(Config(driver))
-
+    browser.config.driver = driver
     yield browser
 
     attach.add_html(browser)
