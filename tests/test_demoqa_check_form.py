@@ -24,7 +24,7 @@ student = Student(
 
 
 @allure.title("Successful fill form")
-def test_submit_form():
+def test_submit_form(setup_browser):
     # GIVEN
     with allure.step("Open registrations form"):
         application_manager.opened_practice_form()
